@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+    <title>Overview</title>
+</head>
+
+<body>
+
+<div class="topnav">
+   <a href="{{ url_for('index') }}">Open cases</a>
+   <a href="{{ url_for('archivedIndex') }}">Cases closed</a>
+   <a href="{{ url_for('dispStats') }}">Statistics</a>
+   <a class="active" href="{{ url_for('auditTrailGenerator') }}">Audit trail extractor</a>
+</div>
+
+   <div class="top">
+      <div class="logo">
+         <img src="{{url_for('static', filename='BFL_Logo_Medium.png')}}" style="float:left" width="150" height="100"/>
+      </div>   
+      <h1>Audit trail extractor</h1>
+   </div>
+
+ <div class="filters">
+   <form name="startpage" method="POST" action="{{ url_for('auditTrailGenerator') }}">
+      <label>Select a process: 
+       <select name = "processes" id = "processes" class="filter" label="Process filter:">
+           <option value="All">All</option>
+       {% for process in processList %}
+           <option value="{{ process[0] }}" {% if process[0] == request.form['processes'] %} selected {% endif %}>{{ process[1] }} </option>
+       {% endfor %}
+       </select>
+       </label>
+       <div class="filter">
+          <label for="startD">See instances from:</label>
+              <input type="date" id="startD" name="startD" min="2022-01-01" max="2070-12-31" value="{{request.form['startD']}}">
+          <label for="endD">to</label>
+              <input type="date" id="endD" name="endD" min="2022-01-01" max="2070-12-31" value="{{request.form['endD']}}">
+       </div>
+       <br>
+       <button type="submit" name="sort" value="sort" class="btn">Apply filters</button>
+       <p class="filterMessage" {% if request.method != 'POST' %} hidden {% endif %}>filters applied</p>
+   </form>
+ </div>
+
+<button onclick="window.location.href='{{ url_for('auditTrailGenerator') }}';" class="rst_btn">Reset filters</button>
+
+<a href="/downloadTrail"><button class="downloadbtn">Download audit trail</button></a>
+
+</body>
+</html>

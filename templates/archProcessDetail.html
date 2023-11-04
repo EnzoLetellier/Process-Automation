@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'styleDetail.css') }}">
+    <meta charset="UTF-8">
+    <title>detail</title>
+</head>
+
+<h1>
+    {{name}}    
+</h1>
+
+<body>
+
+
+
+<div class="logo">
+   <img src="{{url_for('static', filename='BFL_Logo_Medium.png')}}" style="float:left" width="150" height="100"/>
+</div>
+
+
+<button class="backbtn" onclick="window.location.href='{{ url_for('archivedIndex') }}';">
+      Back to list
+ </button>
+
+<div class="list">
+   {%for disp in list%}
+    </div class="element">
+      <label class="infoTitle">{{disp[1]}}</label> <span class="info">{{disp[0]}}<span>
+     <br>
+   </div>
+   {%endfor%}
+</div>
+
+</body>
+</html>

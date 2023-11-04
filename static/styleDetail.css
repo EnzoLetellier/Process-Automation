@@ -1,0 +1,73 @@
+h1 {
+   text-align: center;
+   margin-bottom: 100px;
+}
+
+div.list {
+   margin-left: 100px;
+   margin-top: 50px;
+}
+
+img{
+   position: absolute;
+   left: 10px;
+   top: 10px;
+   margin-bottom: 50px;
+}
+
+label.infoTitle{
+   display: inline;
+   text-align: right;
+   margin-right: 10px;
+   float: left;
+   margin-left: 30px;
+}
+
+div.element {
+   margin-bottom: 5px;
+}
+
+body {
+   background-image: url('clouds.jpg');
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: cover;
+   font-family: Tahoma, sans-serif;
+}
+
+.backbtn{
+   margin-top:40px;
+   margin-left:29px;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #95aedf;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color:#b4c1d9 ;
+  color: black;
+}
+
+/* Add a color to the current link */
+.topnav a.active {
+  background-color: #b4c1d9;
+  color: black;
+}
+
+
+
+

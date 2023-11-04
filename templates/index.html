@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+    <title>Overview</title>
+</head>
+
+<body>
+
+<div class="topnav">
+   <a class="active "href="{{ url_for('index') }}">Open cases</a>
+   <a href="{{ url_for('archivedIndex') }}">Cases closed</a>
+   <a href="{{ url_for('dispStats') }}">Statistics</a>
+   <a href="{{ url_for('auditTrailGenerator') }}">Audit trail extractor</a>
+</div>
+
+   <div class="top">
+      <div class="logo">
+         <img src="{{url_for('static', filename='BFL_Logo_Medium.png')}}" style="float:left" width="150" height="100"/>
+      </div>   
+      <h1>Open cases</h1>
+   </div>
+
+ <div class="filters">
+   <form name="startpage" method="POST" action="{{ url_for('index') }}">
+      <label>Select a process: 
+       <select name = "processes" id = "processes" class="filter" label="Process filter:">
+           <option value="All">All</option>
+       {% for process in processList %}
+           <option value="{{ process[0] }}" {% if process[0] == request.form['processes'] %} selected {% endif %}>{{ process[1] }}</option>
+       {% endfor %}
+       </select>
+       </label>
+       <div class="filter">
+          <label for="startD">See instances from:</label>
+              <input type="date" id="startD" name="startD" min="2022-01-01" max="2070-12-31" value="{{request.form['startD']}}">
+          <label for="endD">to</label>
+              <input type="date" id="endD" name="endD" min="2022-01-01" max="2070-12-31" value="{{request.form['endD']}}">
+       </div>
+        <label>Sorting options: 
+        <select name = "sort" id = "sort">
+             <option value="None"  {% if "None" == request.form['sort'] %} selected {% endif %}>None</option>
+             <option value="date_sort_desc"  {% if "date_sort_desc" == request.form['sort'] %} selected {% endif %}>Sort by date descending</option>
+             <option value="date_sort_asc"  {% if "date_sort_asc" == request.form['sort'] %} selected {% endif %}>Sort by date ascending</option>
+             <option value="last_update_sort_desc"  {% if "last_update_sort_desc" == request.form['sort'] %} selected {% endif %}>Sort by time since last update descending</option>
+             <option value="last_update_sort_asc"  {% if "last_update_sort_asc" == request.form['sort'] %} selected {% endif %}>Sort by time since last update ascending</option>                    
+       </select>
+       </label>
+       <br>
+       <button type="submit" name="sort" value="sort" class="btn">Apply filters</button>
+   </form>
+ </div>
+
+<button onclick="window.location.href='{{ url_for('index') }}';" class="rst_btn">Reset filters</button>
+
+ <p class="filterMsg" {% if disp==True%} hidden {% endif %}>
+   Too many cases meet the criteria, only the first {{max_count}} cases are displayed.
+ </p>
+
+ <div>   
+   <table class="table">
+   <tr>
+      <th>ID</th>
+      <th>Process</th>
+      <th>Start date</th>
+      <th>Initiated by</th>
+      <th>Next step to be processed</th>
+      <th>By</th>
+      <th>Since</th>
+      <th>Details</th>
+   </tr>
+   {% for command in a %}
+        <tr> 
+           <td>
+              {{command[0]}}
+           </td>
+           <td>
+              {{command[13]}}
+           </td>
+	   <td>
+              {{command[8]}}
+           </td>
+           <td>
+              {{command[5]}} {{command[6]}} 
+           </td>
+           <td>
+              step {{command[7]}}: {{command[10]}}
+           </td>
+           <td>
+              {{command[11]}}
+           </td>
+           <td>
+              {{command[12]}}
+           </td>
+           <td>
+              <a href="{{ url_for('command',command_id=command[0]) }}">
+                 <p class="command">Details</p>
+              </a>
+           </td>
+        </tr>
+    {% endfor %}
+ </div>
+<div>
+
+</div>
+
+</body>
+</html>

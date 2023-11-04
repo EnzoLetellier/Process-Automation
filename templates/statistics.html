@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+    <meta charset="UTF-8">
+    <title>statistics</title>
+</head>
+
+<div class="topnav">
+   <a href="{{ url_for('index') }}">Open cases</a>
+   <a href="{{ url_for('archivedIndex') }}">Cases closed</a>
+   <a class="active" href="{{ url_for('dispStats') }}">Statistics</a>
+   <a href="{{ url_for('auditTrailGenerator') }}">Audit trail extractor</a>
+</div>
+
+
+<div class="top">
+   <div class="logo">
+      <img src="{{url_for('static', filename='BFL_Logo_Medium.png')}}" style="float:left" width="150" height="100"/>
+   </div>
+   <h1>
+    Statistics of archived processes
+   </h1>
+</div>
+
+<body>
+
+<h2>
+    {{processDispName}}
+</h2>
+
+ <div class="filters">
+   <form name="startpage" method="POST" action="{{ url_for('dispStats') }}">
+      <label>Process filter: <select name = "processes" id = "processes">
+           <option value="All">All</option>
+       {% for process in processList %}
+           <option value="{{ process[0] }}" {% if process[0] == request.form['processes'] %} selected {% endif %}>{{ process[1] }}</option>
+       {% endfor %}
+       </select>
+       </label>
+       <label for="startD">See instances from:</label>
+           <input type="date" id="startD" name="startD"min="2022-01-01" max="2070-12-31" value="{{request.form['startD']}}">
+       <label for="endD">to</label>
+           <input type="date" id="endD" name="endD"min="2022-01-01" max="2070-12-31" value="{{request.form['endD']}}">
+       <button type="submit" name="sort" value="sort" class="btn btn-default">Apply filters</button>
+   </form>
+ </div>
+    
+       <p>Average duration of the process : {{avgDuration}}</p>
+       {% for disp in valuesToDisp %}
+           <p>{{ disp[1] }} {{disp[0]}}</p>
+       {% endfor %}   
+    
+</body>
+</html>
